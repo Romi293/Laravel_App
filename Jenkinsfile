@@ -2,6 +2,7 @@
 pipeline {
     agent any
 
+
     environment {
         APP_SERVER = 'http://98.81.111.120'
     }
