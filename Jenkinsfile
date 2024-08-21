@@ -1,45 +1,51 @@
 pipeline {
-    agent any
+  agent any
 
+  environment {
+    APP_SERVER = 'http://98.81.111.120'
+  }
 
-    environment {
-        APP_SERVER = 'http://98.81.111.120'
+  stages {
+    stage('Checkout Code') {
+      steps {
+        git url: 'https://github.com/Romi293/Laravel_App.git'
+      }
     }
 
-    stages {
-        stage('Checkout Code') {
-            steps {
-                git url: 'https://github.com/Romi293/Laravel_App.git'
-            }
-        }
-
-        stage('Build') {
-            steps {
-                echo 'Building'
-            }
-        }
-
-        stage('Deploy') {
-            steps {
-                script {
-                    sshagent(credentials: ['AWS_Laravel']) {
-                        sh """
-		        echo 'BLABLABLABLABLA'
-                        # scp -r * ${APP_SERVER}:${DEPLOY_PATH}
-                        # ssh ${APP_SERVER} 'cd ${DEPLOY_PATH} && ./deploy-script.sh'
-                        """
-                    }
-                }
-            }
-        }
+    stage('Build') {
+      steps {
+        echo 'Building'
+      }
     }
 
-    post {
-        success {
-            echo 'Deployment Successful!'
+    stage('Deploy') {
+      steps {
+        sshagent(credentials: ['AWS_Laravel']) {
+          sh ""
+          "
+          echo 'BLABLABLABLABLA'
+          # scp - r * $ {
+            APP_SERVER
+          }: $ {
+            DEPLOY_PATH
+          }
+          # ssh $ {
+            APP_SERVER
+          }
+          'cd ${DEPLOY_PATH} && ./deploy-script.sh'
+          ""
+          "
         }
-        failure {
-            echo 'Deployment Failed!'
-        }
+      }
     }
+  }
+
+  post {
+    success {
+      echo 'Deployment Successful!'
+    }
+    failure {
+      echo 'Deployment Failed!'
+    }
+  }
 }
