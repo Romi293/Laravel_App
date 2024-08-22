@@ -15,7 +15,10 @@ pipeline {
 
     stage('Build') {
       steps {
-        echo 'Building'
+        script {
+          sh 'docker compose build'
+	  sh 'docker push romi293/laravel_app:latest'
+        }
       }
     }
 
