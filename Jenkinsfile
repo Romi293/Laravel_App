@@ -15,7 +15,6 @@ pipeline {
     stage('Build') {
       steps {
         script {
-#           sh 'docker compose build'
 	  sh 'docker build . -t laravel_image'
 	  sh 'docker push romi293/laravel_app:latest'
         }
