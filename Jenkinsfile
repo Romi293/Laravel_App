@@ -3,7 +3,7 @@ pipeline {
   agent any
 
   environment {
-    APP_SERVER = 'http://54.210.112.109'
+    APP_SERVER = '54.210.112.109'
   }
 
   stages {
@@ -24,6 +24,12 @@ pipeline {
         steps {
             script {
                 sh '''
+                apt-get update
+                apt-get install -y apt-transport-https ca-certificates curl software-properties-common
+                curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key add -
+                add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+                apt-get update
+                apt-get install -y docker-ce
                 '''
             }
         }
@@ -41,6 +47,8 @@ pipeline {
     stage('Deploy') {
       steps {
         sshagent(credentials: ['AWS_Laravel']) {
+          sh "ssh ${APP_SERVER} 'docker pull romi293/laravel_app:latest'"
+          sh "ssh ${APP_SERVER} 'docker compose up -d'"
         }
       }
     }
