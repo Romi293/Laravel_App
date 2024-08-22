@@ -16,7 +16,8 @@ pipeline {
     stage('Build') {
       steps {
         script {
-          sh 'docker compose build'
+#           sh 'docker compose build'
+	  sh 'docker build . -t laravel_image'
 	  sh 'docker push romi293/laravel_app:latest'
         }
       }
@@ -25,8 +26,7 @@ pipeline {
     stage('Deploy') {
       steps {
         sshagent(credentials: ['AWS_Laravel']) {
-          sh """
-          echo 'BLABLABLABLABLA'
+          sh
           # scp - r * $ {
             APP_SERVER
           }: $ {
