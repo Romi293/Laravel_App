@@ -7,10 +7,15 @@ pipeline {
   }
 
   stages {
+    stage('Clean Workspace') {
+      steps {
+        deleteDir()
+      }
+    }
     stage('Checkout Code') {
       steps {
-        git url: 'https://github.com/Romi293/Laravel_App.git',
-	    credentialsId: 'My_GitHub_Token'
+        git branch: 'main', url: 'https://github.com/Romi293/Laravel_App.git',
+	    credentialsId: 'GITHUB_TOKEN'
       }
     }
 
