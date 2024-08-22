@@ -24,8 +24,7 @@ pipeline {
     stage('Deploy') {
       steps {
         sshagent(credentials: ['AWS_Laravel']) {
-          sh ""
-          "
+          sh """
           echo 'BLABLABLABLABLA'
           # scp - r * $ {
             APP_SERVER
@@ -36,8 +35,7 @@ pipeline {
             APP_SERVER
           }
           'cd ${DEPLOY_PATH} && ./deploy-script.sh'
-          ""
-          "
+          """
         }
       }
     }
