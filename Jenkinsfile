@@ -14,8 +14,7 @@ pipeline {
 
     stage('Checkout Code') {
       steps {
-        git branch: 'main', url: 'https://github.com/Romi293/Laravel_App.git',
-	    credentialsId: 'GITHUB_TOKEN'
+        git branch: 'main', url: 'https://github.com/Romi293/Laravel_App.git'
       }
     }
 
