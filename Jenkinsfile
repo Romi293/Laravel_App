@@ -1,8 +1,10 @@
+
 pipeline {
   agent any
 
   environment {
     APP_SERVER = '54.210.112.109'
+    DEPLOY_PATH = '/home/ubuntu/example-app'
   }
 
   stages {
@@ -22,8 +24,8 @@ pipeline {
     stage('Build') {
       steps {
         script {
-	  sh 'docker build . -t laravel_image'
-	  sh 'docker push romi293/laravel_app:latest'
+//	  sh 'docker build . -t laravel_image'
+//	  sh 'docker push romi293/laravel_app:latest'
         }
       }
     }
@@ -31,8 +33,10 @@ pipeline {
     stage('Deploy') {
       steps {
         sshagent(credentials: ['AWS_Laravel']) {
-          sh "ssh ${APP_SERVER} 'docker pull romi293/laravel_app:latest'"
-          sh "ssh ${APP_SERVER} 'docker compose up -d'"
+	  sh 'scp -r * ${APP_SERVER}:${DEPLOY_PATH}'
+          sh "ssh ${APP_SERVER}'cd ${DEPLOY_PATH}'"
+//        sh "ssh ${APP_SERVER} 'docker pull romi293/laravel_app:latest'"
+//        sh "ssh ${APP_SERVER} 'docker compose up -d'"
         }
       }
     }
