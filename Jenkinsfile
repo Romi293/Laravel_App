@@ -28,10 +28,11 @@ pipeline {
 
     stage('Build') {
       steps {
-//      script {
+        script {
+	  sh 'echo Hello'
 //	  sh 'docker build . -t laravel_image'
 //	  sh 'docker push romi293/laravel_app:latest'
-//      }
+        }
       }
     }
 
