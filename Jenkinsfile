@@ -22,8 +22,8 @@ pipeline {
 
     stage('Checkout Code') {
       steps {
-        git branch: ${GIT_BRANCH}, url: ${REPO_URL},
-	  credentialsId: ${GIT_CREDENTIALS_ID}
+        git branch: "${GIT_BRANCH}", url: "${REPO_URL}",
+	  credentialsId: "${GIT_CREDENTIALS_ID}"
       }
     }
 
@@ -39,11 +39,11 @@ pipeline {
 
     stage('Deploy') {
       steps {
-        sshagent(credentials: [${AWS_CREDENTIALS}]) {
-	  sh "ssh -o StrictHostKeyChecking=no ${LARAVEL_USER}@${LARAVEL_SERVER}"
+        sshagent(credentials: ["${AWS_CREDENTIALS}"]) {
+	  sh 'ssh -o StrictHostKeyChecking=no "${LARAVEL_USER}"@"${LARAVEL_SERVER}"'
 	  sh "rm -rf *"
-	  sh "scp -r * ${APP_SERVER}:${DEPLOY_PATH}"
-          sh "cd ${DEPLOY_PATH}'"
+	  sh 'scp -r * "${APP_SERVER}":"${DEPLOY_PATH}"'
+          sh 'cd "${DEPLOY_PATH}"'
 	  sh "./vendor/bin/sail up -d"
 //        sh "ssh ${APP_SERVER} 'docker pull romi293/laravel_app:latest'"
 //        sh "ssh ${APP_SERVER} 'docker compose up -d'"
