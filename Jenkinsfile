@@ -41,7 +41,7 @@ pipeline {
       steps {
         sshagent(credentials: ["${AWS_CREDENTIALS}"]) {
 	  sh 'ssh -o StrictHostKeyChecking=no "${LARAVEL_USER}"@"${LARAVEL_SERVER}"'
-	  sh "rm -rf *"
+	  sh "rm -rf /home/ubuntu/*"
 	  sh 'scp -r * "${APP_SERVER}":"${DEPLOY_PATH}"'
           sh 'cd "${DEPLOY_PATH}"'
 	  sh "./vendor/bin/sail up -d"
