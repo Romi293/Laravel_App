@@ -5,6 +5,12 @@ pipeline {
   environment {
     APP_SERVER = '54.210.112.109'
     DEPLOY_PATH = '/home/ubuntu/example-app'
+    GIT_BRANCH = 'main'
+    REPO_URL = 'https://github.com/Romi293/Laravel_App.git'
+    GIT_CREDENTIALS_ID = 'GitHub_Token'
+    AWS_CREDENTIALS = 'AWS_Laravel'
+    LARAVEL_USER = 'ubuntu'
+    LARAVEL_SERVER = 'ec2-54-210-112-109.compute-1.amazonaws.com'
   }
 
   stages {
@@ -16,8 +22,8 @@ pipeline {
 
     stage('Checkout Code') {
       steps {
-        git branch: 'main', url: 'https://github.com/Romi293/Laravel_App.git',
-	  credentialsId: 'GitHub_Token'
+        git branch: ${GIT_BRANCH}, url: ${REPO_URL},
+	  credentialsId: ${GIT_CREDENTIALS_ID}
       }
     }
 
@@ -33,9 +39,12 @@ pipeline {
 
     stage('Deploy') {
       steps {
-        sshagent(credentials: ['AWS_Laravel']) {
-	  sh 'scp -r * ${APP_SERVER}:${DEPLOY_PATH}'
-          sh "ssh ${APP_SERVER}'cd ${DEPLOY_PATH}'"
+        sshagent(credentials: [${AWS_CREDENTIALS}]) {
+	  sh "ssh -o StrictHostKeyChecking=no ${LARAVEL_USER}@${LARAVEL_SERVER}"
+	  sh "rm -rf *"
+	  sh "scp -r * ${APP_SERVER}:${DEPLOY_PATH}"
+          sh "cd ${DEPLOY_PATH}'"
+	  sh "./vendor/bin/sail up -d"
 //        sh "ssh ${APP_SERVER} 'docker pull romi293/laravel_app:latest'"
 //        sh "ssh ${APP_SERVER} 'docker compose up -d'"
         }
