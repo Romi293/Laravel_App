@@ -30,7 +30,6 @@ pipeline {
     stage('Build') {
       steps {
         script {
-	  sh 'echo Hello'
 	  sh 'docker context use ${DOCKER_CONTEXT}'
 	  sh 'docker build -t laravel_image .'
 //	  sh 'docker push romi293/laravel_app:latest'
