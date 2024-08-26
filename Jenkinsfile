@@ -10,7 +10,7 @@ pipeline {
     AWS_CREDENTIALS = 'AWS_Laravel'
     LARAVEL_USER = 'ubuntu'
     LARAVEL_SERVER = 'ec2-54-210-112-109.compute-1.amazonaws.com'
-    DOCKER_CONTEXT = 'remote-context'
+    DOCKER_CONTEXT = 'laravel-remote-context'
   }
 
   stages {
