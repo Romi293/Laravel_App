@@ -30,7 +30,8 @@ pipeline {
     stage('Build') {
       steps {
         script {
-	  sh 'docker context use ${DOCKER_CONTEXT}'
+	  sh 'docker context create laravel-remote-context --docker "host=ssh://ubuntu@54.210.112.109"'
+//	  sh 'docker context use ${DOCKER_CONTEXT}'
 	  sh 'docker build -t laravel_image .'
 //	  sh 'docker push romi293/laravel_app:latest'
         }
