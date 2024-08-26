@@ -31,7 +31,7 @@ pipeline {
       steps {
         script {
 //	  sh "sh 'ssh-keyscan -H "${LARAVEL_SERVER}" >> ~/.ssh/known_hosts'"
-//	  sh 'docker context use ${DOCKER_CONTEXT}'
+	  sh 'docker context use ${DOCKER_CONTEXT}'
 	  sh 'docker build -t laravel_image .'
 //	  sh 'docker push romi293/laravel_app:latest'
         }
