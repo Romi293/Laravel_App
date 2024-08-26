@@ -10,6 +10,7 @@ pipeline {
     AWS_CREDENTIALS = 'AWS_Laravel'
     LARAVEL_USER = 'ubuntu'
     LARAVEL_SERVER = 'ec2-54-210-112-109.compute-1.amazonaws.com'
+    DOCKER_CONTEXT = 'remote-context'
   }
 
   stages {
@@ -30,7 +31,8 @@ pipeline {
       steps {
         script {
 	  sh 'echo Hello'
-//	  sh 'docker build . -t laravel_image'
+	  sh 'docker context use ${DOCKER_CONTEXT}'
+	  sh 'docker build -t laravel_image .'
 //	  sh 'docker push romi293/laravel_app:latest'
         }
       }
